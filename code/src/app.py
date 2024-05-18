@@ -122,7 +122,26 @@ def radio_updated(mode, figure):
     # TODO : Update the figure's data and y axis, as well as the informational
     # text indicating the mode
     new_fig = figure
-    return new_fig, ''
+    new_fig = figure
+    data = prep_data()  
+    if mode == MODES['count']:
+        updated_data = bar_chart.update_data(data, 'count')
+        new_fig.update_traces(y=updated_data['y'])
+        y_axis_label = 'Number of Lines'
+    else:
+        updated_data = bar_chart.update_data(data, 'percent')
+        new_fig.update_traces(y=updated_data['y'])
+        y_axis_label = 'Percentage'
+
+    # Update the y-axis title
+    new_fig.update_layout(
+        yaxis_title=y_axis_label
+    )
+
+    # Update the mode display text
+    mode_text = f'The current mode is: {mode}'
+
+    return new_fig, mode_text
 
 
 data = prep_data()
