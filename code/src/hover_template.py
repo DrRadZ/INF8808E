@@ -26,5 +26,17 @@ def get_hover_template(name, mode):
             The hover template with the elements descibed above
     '''
     # TODO: Generate and return the over template
+    # Defining the hover content based on the mode
+    if mode == MODES['count']:
+        line_info = f"<br>%{{y}} {MODES['count']} lines"  # y will dynamically represent the count of lines
+    elif mode == MODES['percent']:
+        line_info = f"<br>%{{y:.2f}}% {MODES['percent']} of lines"  # y will dynamically represent the percentage
 
-    return ''
+    # Defining the hover template with styling
+    hover_template = f"""
+    <b style='font-family: Grenze Gotish; font-size: 24px; color: black;'>{name}</b>
+    {line_info}
+    <extra></extra>
+    """
+
+    return hover_template
