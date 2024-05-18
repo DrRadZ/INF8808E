@@ -70,13 +70,13 @@ def update_y_axis(fig, mode):
     # TODO : Update the y axis title according to the current mode
     if mode == 'Percent':
         y_axis_title = 'Lines (%)'
-        elif mode == 'Count':
+    elif mode == 'Count':
             y_axis_title = 'Lines (Count)'
-        else:
-            raise ValueError("Mode should be either 'Count' or 'Percent'")
+    else:
+        raise ValueError("Mode should be either 'Count' or 'Percent'")
     
         # Update the y-axis title of the figure
-        fig.update_layout(yaxis_title=y_axis_title)
-        return fig
+    fig.update_layout(yaxis_title=y_axis_title)
+    return fig
 
     
