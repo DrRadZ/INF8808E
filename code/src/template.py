@@ -46,3 +46,25 @@ def create_template():
 
     '''
     # TODO : Define a theme as defined above
+    # Create a new template based on an existing template
+    custom_template = go.layout.Template()
+
+    # Update the template properties
+    custom_template.layout.colorway = THEME['bar_colors']
+    custom_template.layout.paper_bgcolor = THEME['background_color']
+    custom_template.layout.plot_bgcolor = THEME['background_color']
+    custom_template.layout.font.family = THEME['font_family']
+    custom_template.layout.font.color = THEME['font_color']
+
+    # Hover label settings
+    custom_template.layout.hoverlabel.bgcolor = THEME['label_background_color']
+    custom_template.layout.hoverlabel.font.size = THEME['label_font_size']
+    custom_template.layout.hoverlabel.font.color = THEME['font_color']
+    custom_template.layout.hoverlabel.align = 'left'
+    custom_template.layout.hoverlabel.bordercolor = THEME['font_color']
+    custom_template.layout.hovermode = 'closest'
+
+    # Register this custom template under custom_template
+    pio.templates["custom_template"] = custom_template
+
+    return custom_template
