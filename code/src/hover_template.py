@@ -26,17 +26,12 @@ def get_hover_template(name, mode):
             The hover template with the elements descibed above
     '''
     # TODO: Generate and return the over template
-    # Defining the hover content based on the mode
-    if mode == MODES['count']:
-        line_info = f"<br>%{{y}} {MODES['count']} lines"  # y will dynamically represent the count of lines
-    elif mode == MODES['percent']:
-        line_info = f"<br>%{{y:.2f}}% {MODES['percent']} of lines"  # y will dynamically represent the percentage
-
-    # Defining the hover template with styling
-    hover_template = f"""
-    <b style='font-family: Grenze Gotish; font-size: 24px; color: black;'>{name}</b>
-    {line_info}
-    <extra></extra>
-    """
-
+    #Displaying Act number as title and number of lines or % of lines depending on mode based on requirement from subject tp2
+    if mode=='Count':
+        hover_template =('<span style="font-family: Grenze Gotisch; font-size: 24px; font-color: Black">%{x}</span><br></br>'
+        +'<br><b></b>%{y} lines</br><extra></extra>')
+    else:
+        hover_template =('<span style="font-family: Grenze Gotisch; font-size: 24px; font-color: Black">%{x}</span><br></br>'
+        +'<br><b></b>%{y}% of lines</br><extra></extra>')
     return hover_template
+
