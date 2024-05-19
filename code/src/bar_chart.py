@@ -24,14 +24,18 @@ def init_figure():
     # TODO : Update the template to include our new theme and set the title
 
     fig.update_layout(
-        template=pio.templates['simple_white'],
+        template=pio.templates['simple_white+custom_template'],
         title='Lines per Act',
         dragmode=False,
         barmode='relative'
     )
 
     return fig
+# Fetch colors from custom_template to apply them to each player based on the index
 
+def get_color_from_template(index, total_colors):
+    template = pio.templates['custom_template']
+    return template.data['bar'][0].marker.color[index % total_colors]
 
 def draw(fig, data, mode):
     '''
@@ -46,14 +50,36 @@ def draw(fig, data, mode):
     '''
     fig = go.Figure(fig)  # conversion back to Graph Object
     # TODO : Update the figure's data according to the selected mode
-    if mode == 'Count':
-        # Using 'PlayerLine' as the column for count data
-        fig.add_trace(go.Bar(x=data['Player'], y=data['PlayerLine'], name='Line Count'))
-        fig.update_layout(yaxis_title='Line Count')
-    elif mode == 'Percent':
-        # Using 'PlayerPercent' as the column for percentage data
-        fig.add_trace(go.Bar(x=data['Player'], y=data['PlayerPercent'], name='Percentage of Lines'))
-        fig.update_layout(yaxis_title='Percentage of Lines')
+   #Depending on the mode, apply the right y axis, hover info and color
+    unique_players = data['Player'].unique()
+    num_colors = len(pio.templates['custom_template'].data['bar'][0].marker.color)
+
+    for i, player in enumerate(unique_players):
+        player_data = data[data['Player'] == player]
+        color = get_color_from_template(i, num_colors)
+        if mode == 'Count':
+            fig.add_trace(go.Bar(
+                x=player_data['Act'],
+                y=player_data['PlayerLine'],
+                name=player,
+                marker=dict(color=color),
+                hovertemplate=get_hover_template(name=player,mode=mode)
+            ))
+        elif mode == 'Percent':
+            fig.add_trace(go.Bar(
+                x=player_data['Act'],
+                y=player_data['PlayerPercent'],
+                name=player,
+                marker=dict(color=color),
+                hovertemplate=get_hover_template(name=player,mode=mode)  
+            ))
+    # Make sure the bar chart is Stacked and rename x axis to include the word Act, and 
+    fig.update_layout(
+        barmode='stack'  
+    )
+    fig.update_xaxes(ticktext=['Act {}'.format(act) for act in data['Act'].unique()],
+                     tickvals=data['Act'].unique())
+    
     return fig
 
 
